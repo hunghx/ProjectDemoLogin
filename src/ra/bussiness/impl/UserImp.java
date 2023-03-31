@@ -6,6 +6,7 @@ import ra.bussiness.entity.User;
 import ra.data.DataURL;
 
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -103,7 +104,22 @@ public class UserImp implements Icrud<User,Integer> {
 
     @Override
     public User inputData(Scanner sc) {
-        return null;
+        User newUser = new User();
+        List<User> listUser = readFromFile();
+        if (listUser==null) {
+            newUser.setUserId(1);
+        }else {
+            newUser.setUserId(listUser.get(listUser.size()-1).getUserId()+1);
+        }
+        System.out.println("Nhập username :");
+        newUser.setUserName(sc.nextLine());
+        System.out.println("nhập password :");
+        newUser.setPassword(sc.nextLine());
+        System.out.println("Nhập tên đầy đủ");
+        newUser.setFullName(sc.nextLine());
+        newUser.setPermission(false);
+        newUser.setUserStatus(true);
+        return newUser;
     }
 
     @Override
@@ -113,6 +129,9 @@ public class UserImp implements Icrud<User,Integer> {
 
     public User checkLogin(String userName, String password) {
         List<User> listUser = readFromFile();
+        if (listUser==null){
+            listUser = new ArrayList<User>();
+        }
         for (User user : listUser) {
             if (user.getUserName().equals(userName)&&user.getPassword().equals(password)){
                 return user;

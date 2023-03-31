@@ -1,4 +1,4 @@
-package ra.presentation;
+package ra.view;
 
 import ra.bussiness.entity.Catalog;
 import ra.bussiness.entity.User;
@@ -18,6 +18,7 @@ public class ShopManagement {
             System.out.println("1. Dang nhap");
             System.out.println("2. Dang ky");
             System.out.println("3. Thoat");
+            System.out.println("****************CUA HANG ABC***************");
             System.out.print("Su lua chon cua ban: ");
             int choice = Integer.parseInt(sc.nextLine());
             switch (choice){
@@ -25,6 +26,7 @@ public class ShopManagement {
                     login(sc);
                     break;
                 case 2:
+                    register(sc);
                     break;
                 case 3:
                     sc.close();
@@ -36,6 +38,7 @@ public class ShopManagement {
     }
     public static void login(Scanner sc){
         do {
+            System.out.println("-----------Đăng Nhập-------------");
             System.out.print("Ten dang nhap: ");
             String userName = sc.nextLine();
             System.out.print("Mat khau: ");
@@ -48,24 +51,40 @@ public class ShopManagement {
                     displayMenuShopManagement(sc);
                 }else{
                     //Tai khoan user
-                    displauMenuUser(sc);
+                    displayMenuUser(sc);
                 }
                 break;
             }else{
                 //Dang nhap that bai
                 System.err.println(ShopMessage.NOTIFY_LOGIN_FAIL);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 System.out.println("1. Dang nhap lai");
                 System.out.println("2. Dang ky tai khoan");
                 System.out.println("3. Thoat");
                 System.out.print("Su lua chon: ");
                 int choice = Integer.parseInt(sc.nextLine());
                 if (choice==2){
+                    register(sc);
                     //Chuyen den menu dang ky
                 }else if(choice==3){
                     break;
                 }
             }
         }while (true);
+    }
+    public  static void register(Scanner sc){
+        System.out.println("---------Đăng Kí----------------");
+        User newUser = userImp.inputData(sc);
+        boolean check = userImp.create(newUser);
+        if (check) {
+            System.out.println("Đăng kí thành công");
+        }else {
+            System.err.println("Đăng kí thất bại");
+        }
     }
 
     public static void displayMenuShopManagement(Scanner sc){
@@ -75,6 +94,7 @@ public class ShopManagement {
             System.out.println("1. Quan ly danh muc");
             System.out.println("2. Quan ly san pham");
             System.out.println("3. Quan ly nguoi dung");
+            // hoá đơn , phẩn hồi
             System.out.println("4. Thoat");
             System.out.print("Lua chon cua ban: ");
             int choice = Integer.parseInt(sc.nextLine());
@@ -96,8 +116,9 @@ public class ShopManagement {
 
     }
 
-    public static void displauMenuUser(Scanner sc){
-
+    public static void displayMenuUser(Scanner sc){
+        System.out.println("Chào mừng bạn đến với cửa hàng của chúng tôi");
+        sc.nextLine();
     }
 
     public static void displayMenuCatalogManagement(Scanner sc){
